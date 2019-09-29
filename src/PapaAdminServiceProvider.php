@@ -24,7 +24,7 @@ class PapaAdminServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->mergeConfigFromm(
-			__DIR__.'/config/admin.php', 'auth'
+			__DIR__.'/config/auth.php', 'auth'
 		);
 	}
 	 /**
