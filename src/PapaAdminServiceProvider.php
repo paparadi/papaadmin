@@ -15,6 +15,8 @@ class PapaAdminServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->loadRoutesFrom(__DIR__.'/routes/web.php');
+		$this->loadViewsFrom(__DIR__.'/resources/views', 'Papaadmin');
+        $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
 	}
 	/**
 	 * Register services.
