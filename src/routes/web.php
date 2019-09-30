@@ -22,6 +22,13 @@
 			Route::get('roles/{role}/edit', 'RolesController@edit')->name('roles.edit');
 			Route::put('/roles/{role}', 'RolesController@update')->name('roles.update');
 			Route::delete('/roles/{role}', 'RolesController@destroy')->name('roles.destroy');
+
+			Route::get('/users', 'UsersController@index')->name('users.index');
+			Route::get('/users/create', 'UsersController@create')->name('users.create');
+			Route::post('/users', 'UsersController@store')->name('users.store');
+			Route::get('users/{user}/edit', 'UsersController@edit')->name('users.edit');
+			Route::put('/users/{user}', 'UsersController@update')->name('users.update');
+			Route::delete('/users/{user}', 'UsersController@destroy')->name('users.destroy');
 		});
 	});
 ?>
