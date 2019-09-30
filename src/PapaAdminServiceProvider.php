@@ -17,6 +17,7 @@ class PapaAdminServiceProvider extends ServiceProvider {
 		$this->loadRoutesFrom(__DIR__.'/routes/web.php');
 		$this->loadViewsFrom(__DIR__.'/resources/views', 'Papaadmin');
         $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
+        $this->bootBladeDirectives();
 	}
 	/**
 	 * Register services.
@@ -71,5 +72,14 @@ class PapaAdminServiceProvider extends ServiceProvider {
 		}
 		return $array;
 	}
+	/**
+     * Add Custom Blade Directives
+     * 
+     */
+    protected function bootBladeDirectives(){
+        Blade::if('can', function($expression){
+            return auth('admin')->user()->can($expression);
+        });
+    }
 }
 ?>
