@@ -18,6 +18,15 @@ class PapaAdminServiceProvider extends ServiceProvider {
 		$this->loadViewsFrom(__DIR__.'/resources/views', 'Papaadmin');
         $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
         $this->bootBladeDirectives();
+        $this->publishes([
+            __DIR__.'/resources/views/' => resource_path('views'),
+        ], 'views');
+        $this->publishes([
+            __DIR__.'/public' => public_path(''),
+        ], 'public');
+        $this->publishes([
+            __DIR__.'/Database/migrations' => database_path('migrations'),
+        ], 'migrations');
 	}
 	/**
 	 * Register services.
