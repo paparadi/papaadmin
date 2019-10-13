@@ -9,6 +9,8 @@
 				Route::post('/logout','LoginController@logout')->name('logout');
 
 			});
+			Route::get('/dashboard', 'DashboardController@index')->name('dashboard.index');
+
 			Route::get('/permissions', 'PermissionsController@index')->name('permissions.index');
 			Route::get('/permissions/create', 'PermissionsController@create')->name('permissions.create');
 			Route::post('/permissions', 'PermissionsController@store')->name('permissions.store');

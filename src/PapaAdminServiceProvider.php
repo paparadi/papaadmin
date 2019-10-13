@@ -19,6 +19,9 @@ class PapaAdminServiceProvider extends ServiceProvider {
         $this->loadMigrationsFrom(__DIR__.'/Database/migrations');
         $this->bootBladeDirectives();
         $this->publishes([
+            __DIR__.'/config/admin.php' => config_path('admin.php'),
+		], 'config');
+        $this->publishes([
             __DIR__.'/resources/views/' => resource_path('views'),
         ], 'views');
         $this->publishes([
@@ -39,7 +42,7 @@ class PapaAdminServiceProvider extends ServiceProvider {
 			__DIR__.'/config/auth.php', 'auth'
 		);
 		$this->commands([
-			Console\Commands\PapaadminInit::class,
+			Console\Commands\PapaadminPublish::class,
 			Console\Commands\PapaadminAdd::class,
         ]);
 	}
