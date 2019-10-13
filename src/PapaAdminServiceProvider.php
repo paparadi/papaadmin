@@ -38,6 +38,10 @@ class PapaAdminServiceProvider extends ServiceProvider {
 		$this->mergeConfigFromm(
 			__DIR__.'/config/auth.php', 'auth'
 		);
+		$this->commands([
+			Console\Commands\PapaadminInit::class,
+			Console\Commands\PapaadminAdd::class,
+        ]);
 	}
 	 /**
 	 * Merge the given configuration with the existing configuration.
