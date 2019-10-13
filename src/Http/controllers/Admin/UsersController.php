@@ -13,16 +13,7 @@ use Illuminate\Support\Str;
 
 class UsersController extends Controller
 {
-	public function __construct(){
-		$user;
-		$this->middleware(function($request, $next){
-			$user = auth('admin')->user();
-			if(!$user->can('manage_users')){
-				abort('403');
-			}
-			return $next($request); 
-		});
-	}
+	
 	/**
 	 * Display a listing of the resource.
 	 *

@@ -8,20 +8,7 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionsController extends Controller
 {
-    /**
-     * Construct the controller and only allow authorized users
-     *
-     */
-    public function __construct(){
-        $user;
-        $this->middleware(function($request, $next){
-            $user = auth('admin')->user();
-            if(!$user->can('manage_permissions')){
-                abort('403');
-            }
-            return $next($request); 
-        });
-    }
+    
     /**
      * Display a listing of the resource.
      *
