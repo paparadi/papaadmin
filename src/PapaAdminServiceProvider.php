@@ -58,6 +58,7 @@ class PapaAdminServiceProvider extends ServiceProvider {
 		$config = $this->app['config']->get($key, []);
 
 		$this->app['config']->set($key, $this->mergeConfigs(require $path, $config));
+		$this->app['router']->aliasMiddleware('permission', \Spatie\Permission\Middlewares\PermissionMiddleware::class);
 	}
 
 	/**
