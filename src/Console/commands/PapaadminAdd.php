@@ -45,10 +45,10 @@ class PapaadminAdd extends Command
 		try {
 	        DB::connection()->getPdo();
 	        if(!DB::connection()->getDatabaseName()){
-	            die("Could not find provided database. Please check your configuration.");
+	            die("Could not find provided database. Please check your configuration.\r\n");
 	        }
 	    } catch (\Exception $e) {
-	        die("Could not open connection to database server.  Please check your configuration.");
+	        die("Could not open connection to database server.  Please check your configuration.\r\n");
 	    }
 		if(count(Agent::all()) == 0){
 			try {
