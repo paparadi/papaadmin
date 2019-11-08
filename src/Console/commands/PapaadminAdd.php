@@ -7,6 +7,7 @@ use Paparadi\Papaadmin\Models\Agent;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class PapaadminAdd extends Command
 {
@@ -41,6 +42,14 @@ class PapaadminAdd extends Command
 	 */
 	public function handle()
 	{
+		try {
+	        DB::connection()->getPdo();
+	        if(!DB::connection()->getDatabaseName()){
+	            die("Could not find provided database. Please check your configuration.");
+	        }
+	    } catch (\Exception $e) {
+	        die("Could not open connection to database server.  Please check your configuration.");
+	    }
 		if(count(Agent::all()) == 0){
 			try {
 				//code...
