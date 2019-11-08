@@ -50,49 +50,59 @@ class PapaadminAdd extends Command
 	    } catch (\Exception $e) {
 	        die("Could not open connection to database server.  Please check your configuration.\r\n");
 	    }
-		if(count(Agent::all()) == 0){
-			try {
-				//code...
-				$name                       = $this->ask("Please enter admin name");
-				$email                      = "";
-				while(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-					$email                  = $this->ask("Please enter admin valid email address");
-					$password                   = $this->secret("Please enter password");
+	    try {
+			if(count(Agent::all()) == 0){
+				try {
+					//code...
+					$name                       = $this->ask("Please enter admin name");
+					$email                      = "";
+					while(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+						$email                  = $this->ask("Please enter admin valid email address");
+						$password                   = $this->secret("Please enter password");
+					}
+					//$this->comment($email . PHP_EOL . $password);
+					$password                   = Hash::make($password);
+					$agent                      = Agent::create([
+						'name'              => $name,
+						'email'             => $email,
+						'password'          => $password,
+						'status'            => 1,
+					]);
+					$role                       = Role::create([
+						'name'              => 'admin',
+						'guard_name'        => 'admin'
+					]);
+					$users_permission           = Permission::create([
+						'name'              => 'manage_users',
+						'guard_name'        => 'admin'
+					]);
+					$permissions_permission     = Permission::create([
+						'name'              => 'manage_permissions',
+						'guard_name'        => 'admin'
+					]);
+					$agent->assignRole($role);
+					$role->givePermissionTo([$users_permission, $permissions_permission]);
+					$this->line('Complete!');
+					$this->line('Build something awesome!');
+				} 
+				catch (Throwable $message) {
+					Agent::truncate();
+					Role::truncate();
+					Permission::truncate();
+					$this->error($message->getMessage());
 				}
-				//$this->comment($email . PHP_EOL . $password);
-				$password                   = Hash::make($password);
-				$agent                      = Agent::create([
-					'name'              => $name,
-					'email'             => $email,
-					'password'          => $password,
-					'status'            => 1,
-				]);
-				$role                       = Role::create([
-					'name'              => 'admin',
-					'guard_name'        => 'admin'
-				]);
-				$users_permission           = Permission::create([
-					'name'              => 'manage_users',
-					'guard_name'        => 'admin'
-				]);
-				$permissions_permission     = Permission::create([
-					'name'              => 'manage_permissions',
-					'guard_name'        => 'admin'
-				]);
-				$agent->assignRole($role);
-				$role->givePermissionTo([$users_permission, $permissions_permission]);
-				$this->line('Complete!');
-				$this->line('Build something awesome!');
-			} 
-			catch (Throwable $message) {
-				Agent::truncate();
-				Role::truncate();
-				Permission::truncate();
-				$this->error($message);
+			}
+			else{
+				$this->comment('Initialization Done Already!');
 			}
 		}
-		else{
-			$this->comment('Initialization Done Already!');
+		catch (\Exception $e) {
+			if($e->getMessage() === 'SQLSTATE[HY000]: General error: 1 no such table: agents (SQL: select * from "agents")'){
+				$this->comment("Please Run @'php artisan migrate' first.");
+			}
+			else {
+				$this->comment($e->getMessage());
+			}
 		}
 	}
 }
